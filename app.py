@@ -7,5 +7,13 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+@app.route("/phonk")
+def phonk():
+    return render_template("phonk.html")
+
+@app.route("/calc")
+def calc():
+    return render_template("calc.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

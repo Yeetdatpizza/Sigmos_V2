@@ -1,8 +1,12 @@
 <nav class="navbar">
-    <div class="logo">MySite</div>
+    <div class="logo">
+        <a href="{{ url_for('home') }}">
+            SIGMOS
+        </a>
+    </div>
     <ul class="nav-links">
-        <li><a href="home.html">Home</a></li>
-        <li><a href="Calculator.html">Projects</a></li>
-        <li><a href="Graphing Calc.html">About</a></li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('phonk') }}">Phonk</a></li>
+        <li><a href="{{ url_for('calc') }}">Calc</a></li>
     </ul>
 </nav>

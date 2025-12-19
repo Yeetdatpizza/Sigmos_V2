@@ -5,9 +5,53 @@
   font-family: "Segoe UI", sans-serif;
 }
 
+.calc {
+  width: max-content;
+  height: max-content;
+  position: absolute; 
+  left: 50%; 
+  top: 25%; 
+  transform: translate(-50%, -50%);
+  border: black;
+}
+
+.calc-text {
+  border-color: white;
+  width: 60dvw;
+  height: 10dvh;
+  font-size: 24px;
+  text-indent: 1dvw;
+}
+
+.calc-nums {
+  width: max-content;
+  height: max-content;
+  position: absolute; 
+  left: 50%; 
+  top: 100%; 
+  transform: translate(-50%, 20%);
+  border: black;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
 body {
   background: #FFFFFF;
   height: 100vh;
+}
+
+.image-left {
+  float: left;
+  margin-right: 5dvw;
+  margin-left: 5dvw;
+}
+
+.image-right {
+  float: right;
+  margin-right: 5dvw;
+  margin-left: 5dvw;
 }
 
 .navbar {
@@ -16,14 +60,24 @@ body {
   align-items: center;
   padding: 20px 60px;
 
-  background: rgb(26, 220, 215);
+  background: rgb(26, 94, 220);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.logo {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: white;
+.center-head {
+  text-align: center;
+}
+
+.center-head-5m {
+  text-align: center;
+  margin: 5dvw;
+}
+
+.logo a {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
 }
 
 .nav-links {
@@ -55,10 +109,33 @@ body {
   width: 100%;
 }
 
-.btn {
-  padding: 8px 16px;
-  border-radius: 20px;
-  background: #ffffff;
-  color: #12121c !important;
+.calc-num-btn {
+  height: 5dvh;
+  width: 7.5dvw;
+  background: rgb(26, 94, 220);
+  color: #ffffff;
+  border-color: rgb(26, 94, 220);
   font-weight: bold;
+  font-size: larger;
+}
+
+.calc-spic-btn {
+  height: 5dvh;
+  width: 7.5dvw;
+  background: rgb(16, 51, 116);
+  color: #ffffff;
+  border-color: rgb(16, 51, 116);
+  font-weight: bold;
+  font-size: larger;
+}
+
+
+.calc-opp-btn {
+  height: 5dvh;
+  width: 7.5dvw;
+  background: rgb(74, 129, 233);
+  color: #ffffff;
+  border-color: rgb(74, 129, 233);
+  font-weight: bold;
+  font-size: larger;
 }

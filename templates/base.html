@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
-    <title>{% block title %}My Site{% endblock %}</title>
+    <title>{% block title %}SIGMOS{% endblock %}</title>
 
-    <!-- GLOBAL STYLES -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/ico_circ.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     {% block head %}{% endblock %}
 </head>
+
+
 <body>
 
 {% include "navbar.html" %}
