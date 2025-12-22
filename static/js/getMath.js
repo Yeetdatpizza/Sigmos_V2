@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (answer !== null) {
 
             if(answer.toString() == "Infinity" || answer.toString() == "-Infinity") {
-                answer = 'BOII I AIN\'T DOIN TS!'
+                alert("BOII I AIN\\'T DOIN TS!")
             }
 
             localStorage.setItem('PreviousAnswer', answer)
@@ -56,33 +56,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function doMath(mathToDo) {
 
-        for(let i = 0; i < mathToDo.length; i++) {
+        for (let i = 0; i < mathToDo.length; i++) {
 
-            if(mathToDo[i] === '×') {
-                mathToDo[i] = '*'
-            }
-            else if(mathToDo[i] === '÷') {
-                mathToDo[i] = '/'
-            }
-            else if(mathToDo[i] === '√') {
-                mathToDo[i] = 'Math.sqrt'
-            }
-            else if(mathToDo[i] === '^') {
-                mathToDo[i] = '**'
+            if (mathToDo[i] === '×') {
+                mathToDo.splice(i, 1, '*')
             }
 
-            else if(mathToDo[i + 1] === '(' && (/[0-9.]/).test(mathToDo[i])) {
-                mathToDo = mathToDo.slice(0, i + 1).concat(['*']).concat(mathToDo.slice(i + 1))
+            else if (mathToDo[i] === '÷') {
+                mathToDo.splice(i, 1, '/')
+            }
+
+            else if (mathToDo[i] === '√') {
+                mathToDo.splice(i, 1, 'Math.sqrt(')
                 i++
             }
 
-            else if(mathToDo[i - 1] === ')' && (/[0-9.]/).test(mathToDo[i])) {
-                mathToDo = mathToDo.slice(0, i).concat(['*']).concat(mathToDo.slice(i))
-                i++
+            else if (mathToDo[i] === '^') {
+                mathToDo.splice(i, 1, '**')
             }
 
+            else if (mathToDo[i + 1] === '(' && /[0-9.]/.test(mathToDo[i])) {
+
+                mathToDo.splice(i + 1, 0, '*')
+                i++
+
+            }
+
+            else if (mathToDo[i - 1] === ')' && /[0-9.]/.test(mathToDo[i])) {
+                mathToDo.splice(i, 0, '*')
+                i++
+            }
         }
 
+
+        console.log(mathToDo)
         return mathToDo
     
     }
@@ -100,19 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (equal) equal.addEventListener('click', () => {
 
-        checkForTuff(mathInput.value)
-
         try {
-            const result = eval(doMath(mathInput.value)).toFixed(15).replace(/\.?0+$/, '')
+            const result = eval(doMath(mathInput.value)).toString()
+            checkForTuff(result)
             setPreviousAnswer(result)
         }
         
         catch (error) {
-
             console.log(doMath(mathInput.value))
-
             console.log(error)
-            setPreviousAnswer("BOII TS BROKEN!")
+            alert("BOII TS BROKEN!")
         }
     })
 
@@ -127,11 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     if (power) power.addEventListener('click', () => {
-        mathInput.value += '**' 
+        mathInput.value += '**'
     })
 
     if (sqrt) sqrt.addEventListener('click', () => {
-        mathInput.value += 'Math.sqrt('
+        mathInput.value += '√('
     })
 
     if (times) times.addEventListener('click', () => {
@@ -141,6 +145,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (division) division.addEventListener('click', () => {
         mathInput.value += '/'
     })
-    
 
 })

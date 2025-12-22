@@ -7,6 +7,10 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+@app.route("/israel-gpt")
+def israel():
+    return render_template("israel-gpt.html")
+
 @app.route("/phonk")
 def phonk():
     return render_template("phonk.html")
