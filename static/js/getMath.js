@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-
         console.log(mathToDo)
         return mathToDo
     
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (equal) equal.addEventListener('click', () => {
 
         try {
-            const result = eval(doMath(mathInput.value)).toString()
+            const result = (Math.round((eval(doMath(mathInput.value)) + Number.EPSILON) * 100) / 100).toString()
             checkForTuff(result)
             setPreviousAnswer(result)
         }
