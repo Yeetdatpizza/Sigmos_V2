@@ -12,29 +12,46 @@
         <button id="one" class="calc-num-btn">1</button>
         <button id="two" class="calc-num-btn">2</button>
         <button id="three" class="calc-num-btn">3</button>
+        <button id="sin" class="calc-opp-btn">sin</button>
+        <button id="cos" class="calc-opp-btn">cos</button>
+        <button id="tan" class="calc-opp-btn">tan</button>
         <button id="back" class="calc-spic-btn">⌫</button>
         <button id="four" class="calc-num-btn">4</button>
         <button id="five" class="calc-num-btn">5</button>
         <button id="six" class="calc-num-btn">6</button>
+        <button id="asin" class="calc-opp-btn">asin</button>
+        <button id="acos" class="calc-opp-btn">acos</button>
+        <button id="atan" class="calc-opp-btn">atan</button>
         <button id="answer" class="calc-spic-btn">Ans</button>
         <button id="seven" class="calc-num-btn">7</button>
         <button id="eight" class="calc-num-btn">8</button>
         <button id="nine" class="calc-num-btn">9</button>
+        <button id="" class="calc-nerb"></button>
+        <button id="" class="calc-nerb"></button>
+        <button id="" class="calc-nerb"></button>
         <button id="power" class="calc-opp-btn">^</button>
         <button id="decimal" class="calc-opp-btn">.</button>
         <button id="zero" class="calc-num-btn">0</button>
         <button id="equal" class="calc-opp-btn">=</button>
+        <button id="inverse" class="calc-nerb"></button>
+        <button id="square" class="calc-nerb"></button>
+        <button id="pi" class="calc-opp-btn">π</button>
         <button id="plus" class="calc-opp-btn">+</button>
         <button id="minus" class="calc-opp-btn">-</button>
         <button id="sqrt" class="calc-opp-btn">√</button>
         <button id="mod" class="calc-opp-btn">%</button>
+        <button id="log" class="calc-opp-btn">log</button>
+        <button id="ln" class="calc-opp-btn">ln</button>
+        <button id="e" class="calc-opp-btn">e</button>
         <button id="times" class="calc-opp-btn">×</button>
         <button id="division" class="calc-opp-btn">/</button>
         <button id="left-paren" class="calc-opp-btn">(</button>
         <button id="right-paren" class="calc-opp-btn">)</button>
+        
     </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/getMath.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@11/lib/browser/math.js"></script>
+<script type="module" src="{{ url_for('static', filename='js/getMath.js') }}"></script>
 
 {% endblock %}
