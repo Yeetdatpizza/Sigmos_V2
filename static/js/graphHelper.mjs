@@ -118,7 +118,7 @@ export function getEquationTypeFromInput(equation) {
         }
 
         if(sideWithX == sideWithY) {
-            return ["STOSS", eqSplit[0], eqSplit[1]]
+            return ["STOSS", sideWithX, sideWithNoX]
         }
 
         else {

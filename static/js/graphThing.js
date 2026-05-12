@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeCanvasToParent());
     window.addEventListener('zoom', resizeCanvasToParent());
 
-    // STUPID MATH THAT I HATE
+    // Canvas Stuff
 
     var width = canvas.width;
     var height = canvas.height;
@@ -380,6 +380,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
 
+        else if (information[0] == "STOSS") {
+
+            let sideToSolveFor = doMath(information[1])
+            let sideWithSolution = doMath(information[2])
+
+            for (let x = minXVisible; x <= maxXVisible; x++) {
+                for (let y = minYVisible; y <= maxYVisible; y++) {
+
+                    let thing = sideToSolveFor.replaceAll("y", "(" + y.toString() + ")")
+                    thing = thing.replaceAll("x", "(" + x.toString() + ")")
+
+                    if (math.evaluate(thing) == sideWithSolution) {
+                        plotPoint(x, y, indexOfColor);
+                    }
+                }
+            }
+        }
+
     }
 
     // INPUT HANDLING
@@ -464,10 +482,10 @@ document.addEventListener('DOMContentLoaded', () => {
         whereYouPutMath.insertBefore(againWithTheBlocks, addNewItemButton);
 
         let bruh = document.getElementById("where_you_put_math")
-        bruh.style.height =  (bruh.offsetHeight + againWithTheBlocks.offsetHeight) + "px"
+        //bruh.style.height = (bruh.offsetHeight + againWithTheBlocks.offsetHeight) + "px"
 
-        alert(bruh.offsetHeight)
-        alert(againWithTheBlocks.offsetHeight)
+        //alert(bruh.offsetHeight)
+        //alert(againWithTheBlocks.offsetHeight)
 
         readdListeners();
     });
