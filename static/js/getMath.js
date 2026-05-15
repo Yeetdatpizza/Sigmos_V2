@@ -1,7 +1,7 @@
 math.config({
   number: 'BigNumber',
   precision: 64
-});
+}) 
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -86,12 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function makeGood(x) {
-        const bn = math.bignumber(x);
-        const eps = math.bignumber('1e-30');
-        return math.smaller(math.abs(bn), eps) ? math.bignumber(0) : bn;
+        const bn = math.bignumber(x) 
+        const eps = math.bignumber('1e-30') 
+        return math.smaller(math.abs(bn), eps) ? math.bignumber(0) : bn 
     }
 
-    
     if (clear) clear.addEventListener('click', () => {
         mathInput.value = ''
         mathInput.setAttribute("placeholder", previousAnswer ? "Previous Answer: " + previousAnswer : "0")
@@ -113,12 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if(e.key.toLowerCase() == "enter") {
             try {
                 let result = null
+
                 if(toggle == "RAD")
                     result = makeGood(math.evaluate(doMath(("(" + mathInput.value.toString() + ") * pi / 180")))).toString()
+
                 else {
                     result = makeGood(math.evaluate(doMath(mathInput.value))).toString()
                 }
-                
                 
                 checkForTuff(result)
                 setPreviousAnswer(result)
@@ -139,8 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         catch (error) {
-            //console.log(doMath(mathInput.value))
-            //console.log(error)
             alert("BOII TS BROKEN!")
         }
     })

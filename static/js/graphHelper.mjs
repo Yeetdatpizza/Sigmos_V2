@@ -1,16 +1,15 @@
 math.config({
   number: 'BigNumber',
   precision: 64
-});
+}) 
 
 function makeGood(x) {
-        const bn = math.bignumber(x);
-        const eps = math.bignumber('1e-30');
-        return math.smaller(math.abs(bn), eps) ? math.bignumber(0) : bn;
+        const bn = math.bignumber(x) 
+        const eps = math.bignumber('1e-30') 
+        return math.smaller(math.abs(bn), eps) ? math.bignumber(0) : bn 
 }
 
 function doMath(mathToDo) {
-
         mathToDo = mathToDo.replaceAll(' ', '')
         mathToDo = mathToDo.replaceAll('mod', '%')
         mathToDo = mathToDo.replaceAll('√', 'sqrt')
@@ -30,8 +29,8 @@ export function getEquationTypeFromInput(equation) {
 
     for (var i = 0; i < eq.length; i++) {
         if (eq[i] === ' ') {
-            eq = eq.slice(0, i) + eq.slice(i + 1);
-            i--;
+            eq = eq.slice(0, i) + eq.slice(i + 1) 
+            i-- 
         }
     }
 
@@ -90,9 +89,9 @@ export function getEquationTypeFromInput(equation) {
 
     if (eq.includes('=')) {
 
-        var eqSplit = eq.split('='); 
+        var eqSplit = eq.split('=')  
 
-        if (eqSplit.length > 2) { return 'invalid'; }
+        if (eqSplit.length > 2) { return 'invalid'  }
 
         var containsY = eq.includes("y")
         var containsX = eq.includes("x")

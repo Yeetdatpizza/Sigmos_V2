@@ -191,7 +191,7 @@
 .container {
     display: flex;
     height: 88vh;
-    /*flex-grow: 1;*/
+    flex-grow: 1;
     overflow: hidden;
 }
 

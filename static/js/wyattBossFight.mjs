@@ -1,47 +1,47 @@
-import * as Objects from "./Objects.js";
+import * as Objects from "./Objects.js" 
 import * as Dialouge from "../dialouge/Wyatt.js"
 
 var canvas = document.getElementById('graphing-calc-canvas')
-var ctx = canvas.getContext('2d');
-var graphingGraphThing = document.getElementById('graphingGraphThing');
+var ctx = canvas.getContext('2d') 
+var graphingGraphThing = document.getElementById('graphingGraphThing') 
 
-var keysPressed = {};
-var lastFrameTime = performance.now();
+var keysPressed = {} 
+var lastFrameTime = performance.now() 
 
-var currentAttack = "Intro";
+var currentAttack = "Intro" 
 var attacks = Array("ChickenPatty", "WeridThings", "Highlighter", "Tiphead")
-var attackAmount = 0;
+var attackAmount = 0 
 
 var items = []
 var dialogueSpoken = []
 
-var currentTaunt = null;
+var currentTaunt = null 
 
-var attackStartFrame = 0;
+var attackStartFrame = 0 
 var generalAssumedFramesPerSecond = 30
-var currentFrame = 0;
-var fps = null;
-var painFrames = null;
-var painFramesCount = null;
+var currentFrame = 0 
+var fps = null 
+var painFrames = null 
+var painFramesCount = null 
 
 var temporarySpeech = ""
 var currentSpeech = 0
 
-var playerOrign = null;
-var playerImage = new Image();
+var playerOrign = null 
+var playerImage = new Image() 
 playerImage.src = "../static/img/sigmos.png"
-var player = null;
+var player = null 
 
-var wyattImage = new Image();
+var wyattImage = new Image() 
 wyattImage.src = "../static/img/WyattSprites/wyatt.png"
 
-var explosion = new Image();
+var explosion = new Image() 
 explosion.src = "../static/img/explosion.webp"
 
-var creeper = new Image();
+var creeper = new Image() 
 creeper.src = "../static/img/creeper.png"
-var wyatt = null;
-var wyattPosition = null;
+var wyatt = null 
+var wyattPosition = null 
 
 export function startTheFight() {
 
@@ -70,19 +70,19 @@ export function startTheFight() {
 
     wyatt = new Objects.Enemy((canvas.width / 2) - canvas.width / 6, (canvas.height / 2) - canvas.width / 3, canvas.width / 3, canvas.width / 3, 1000, wyattImage)
     
-    lastFrameTime = performance.now();
+    lastFrameTime = performance.now() 
     updateFrame()
 
 }
 
 function getFramesPerSecond() {
     
-    var now = performance.now();
-    var delta = now - lastFrameTime;
-    lastFrameTime = now;
-    var fps = 1000 / delta;
+    var now = performance.now() 
+    var delta = now - lastFrameTime 
+    lastFrameTime = now 
+    var fps = 1000 / delta 
     
-    return Math.round(fps);
+    return Math.round(fps) 
     
 }
 
@@ -104,12 +104,12 @@ function write(text, canSpeedUp = true, canSkip = true, isAnAction = false) {
         temporarySpeech += stuffToActuallyWrite.charAt(temporarySpeech.length)
     }
 
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = "20px Arial" 
+    ctx.fillStyle = "white" 
+    ctx.textAlign = "center" 
+    ctx.textBaseline = "middle" 
 
-    drawWrappedCenteredText(ctx, temporarySpeech, canvas.width / 2, canvas.height / 2, 400, 28);
+    drawWrappedCenteredText(ctx, temporarySpeech, canvas.width / 2, canvas.height / 2, 400, 28) 
 
     if(keysPressed[' '] && isAnAction) {
         temporarySpeech = ""
@@ -190,20 +190,20 @@ function updateFrame() {
             }
             
             if (currentAttack == "Taunt") {
-                items[i].destroy();
+                items[i].destroy() 
             }
         }
 
-        items[i].update();
-        items[i].draw(ctx);
+        items[i].update() 
+        items[i].draw(ctx) 
         
         if (player.isColliding(items[i])) {
             if(items[i].getId() == "ChickenPatty") {
-                player.inflate();
+                player.inflate() 
             }
             
-            player.takeDamage(items[i].getDamage());
-            items[i].destroy();
+            player.takeDamage(items[i].getDamage()) 
+            items[i].destroy() 
             
         }
     }
@@ -218,31 +218,31 @@ function updateFrame() {
 
 function drawWrappedCenteredText(ctx, text, centerX, centerY, maxWidth, lineHeight) {
 
-    const words = text.split(" ");
-    let lines = [];
-    let currentLine = words[0];
+    const words = text.split(" ") 
+    let lines = [] 
+    let currentLine = words[0] 
 
     for (let i = 1; i < words.length; i++) {
-        let testLine = currentLine + " " + words[i];
-        let metrics = ctx.measureText(testLine);
+        let testLine = currentLine + " " + words[i] 
+        let metrics = ctx.measureText(testLine) 
 
         if (metrics.width > maxWidth) {
-            lines.push(currentLine);
-            currentLine = words[i];
+            lines.push(currentLine) 
+            currentLine = words[i] 
         }
         
         else {
-            currentLine = testLine;
+            currentLine = testLine 
         }
     }
 
-    lines.push(currentLine);
+    lines.push(currentLine) 
 
-    const totalHeight = lines.length * lineHeight;
-    let startY = centerY - totalHeight / 2 + lineHeight / 2;
+    const totalHeight = lines.length * lineHeight 
+    let startY = centerY - totalHeight / 2 + lineHeight / 2 
 
     for (let i = 0; i < lines.length; i++) {
-        ctx.fillText(lines[i], centerX, startY + i * lineHeight);
+        ctx.fillText(lines[i], centerX, startY + i * lineHeight) 
     }
 }
 
@@ -298,7 +298,7 @@ function attackLoop(currentFrame) {
 
             if (attackAmount < 10) {
 
-                var chickenPattyImage = new Image();
+                var chickenPattyImage = new Image() 
                 chickenPattyImage.src = "../static/img/ChickenPatty.png"
 
                 var chickenPatty = new Objects.Projectile((((canvas.width / 2) + (canvas.width / 4)) / (Math.random() * 2 + 1)), canvas.height / 8, 20 / (Math.round(fps / generalAssumedFramesPerSecond)) , 0, 1, canvas.width / 15, canvas.width / 15, chickenPattyImage, "ChickenPatty", 5)
@@ -311,7 +311,7 @@ function attackLoop(currentFrame) {
 
             else {
 
-                attackAmount = 0;
+                attackAmount = 0 
                 currentAttack = 'Player'
             }
         }
@@ -323,7 +323,7 @@ function attackLoop(currentFrame) {
 
             if (attackAmount < 50) {
 
-                var weridTThingImage = new Image();
+                var weridTThingImage = new Image() 
                 weridTThingImage.src = "../static/img/werid_thing.png"
 
                 var weridThing = new Objects.Projectile(0, canvas.width / 2 * (Math.random() * 2), 45 / (Math.round(fps / generalAssumedFramesPerSecond)), 1, ((Math.random() * 2) - 1) * (3/4), canvas.width / 32, canvas.width / 32, weridTThingImage, "WeridThing", 1)
@@ -341,7 +341,7 @@ function attackLoop(currentFrame) {
                     player.deflate()
                 }
                 
-                attackAmount = 0;
+                attackAmount = 0 
                 currentAttack = 'Player'
             }
         }
@@ -353,7 +353,7 @@ function attackLoop(currentFrame) {
 
             if (attackAmount < 10) {
 
-                var highlighterImage = new Image();
+                var highlighterImage = new Image() 
                 highlighterImage.src = "../static/img/highlighter.png"
 
                 var highlighter = new Objects.Projectile(-canvas.width, player.y, 60 / (Math.round(fps / generalAssumedFramesPerSecond)), 1, 0, canvas.width / 4, canvas.width / 32, highlighterImage, "Highlighter", 15)
@@ -371,7 +371,7 @@ function attackLoop(currentFrame) {
                     player.deflate()
                 }
                 
-                attackAmount = 0;
+                attackAmount = 0 
                 currentAttack = 'Player'
             }
         }
@@ -393,7 +393,7 @@ function attackLoop(currentFrame) {
                 let randomPosition = positions[math.round(math.random(0, 3))]
 
 
-                var tipheadImage = new Image();
+                var tipheadImage = new Image() 
                 tipheadImage.src = "../static/img/tiphead.png"
 
                 var tiphead = new Objects.Projectile(randomPosition["x"], randomPosition["y"], 12 / (Math.round(fps / generalAssumedFramesPerSecond)), 1, 0, canvas.width / 16, canvas.width / 16, tipheadImage, "tiphead", 5, fps * 2, false)
@@ -412,7 +412,7 @@ function attackLoop(currentFrame) {
                     player.deflate()
                 }
                 
-                attackAmount = 0;
+                attackAmount = 0 
                 currentAttack = 'Player'
             }
         }
