@@ -1,3 +1,5 @@
+
+
 math.config({
   number: 'BigNumber',
   precision: 64
@@ -10,13 +12,11 @@ function makeGood(x) {
 }
 
 function doMath(mathToDo) {
-        mathToDo = mathToDo.replaceAll(' ', '')
-        mathToDo = mathToDo.replaceAll('mod', '%')
-        mathToDo = mathToDo.replaceAll('√', 'sqrt')
-        mathToDo = mathToDo.replaceAll('π', 'pi')
-
-        return mathToDo
-    
+    mathToDo = mathToDo.replaceAll(' ', '')
+    mathToDo = mathToDo.replaceAll('mod', '%')
+    mathToDo = mathToDo.replaceAll('√', 'sqrt')
+    mathToDo = mathToDo.replaceAll('π', 'pi')
+    return mathToDo
 }
 
 export function getEquationTypeFromInput(equation) {
@@ -27,11 +27,26 @@ export function getEquationTypeFromInput(equation) {
         return "invalid"
     }
 
-    for (var i = 0; i < eq.length; i++) {
-        if (eq[i] === ' ') {
-            eq = eq.slice(0, i) + eq.slice(i + 1) 
-            i-- 
+    if (eq.includes("text") == false) {
+        for (var i = 0; i < eq.length; i++) {
+            if (eq[i] === ' ') {
+                eq = eq.slice(0, i) + eq.slice(i + 1) 
+                i-- 
+            }
         }
+    }
+
+    if(eq.includes("text(")){
+        let content = eq.substring(5, eq.indexOf(")"))
+        content = content.split(",")
+        if (eq.indexOf(")") == -1) {
+            return "invalid"
+        }
+
+        else {
+            return ["text", content[0], [content[1], content[2]], content[3], content[4]]
+        }
+
     }
 
     if(eq.includes("shape(")) {
