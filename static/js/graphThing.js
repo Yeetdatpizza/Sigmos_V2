@@ -5,7 +5,7 @@ import { getEquationTypeFromInput } from "./graphHelper.mjs"
 import { startTheFight } from "./wyattBossFight.mjs"
 
 // Basically fixes floating-point issues with JavaScript, via a library. 
-math.config({number: 'number'}) 
+math.config({number: 'number'})
 
 // Varible to control if you are fighting Wyatt or if you are not.
 var isFightingWyatt = false
@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to resize the graph
     function resizeGraphToParent() {
         const parent = graph.parentElement 
-        const rect = parent.getBoundingClientRect() 
-        graph.width  = Math.floor(rect.width) 
+        const rect = parent.getBoundingClientRect()
+        graph.width  = Math.floor(rect.width)
         graph.height = Math.floor(rect.height) 
         ctx.setTransform(1, 0, 0, 1, 0, 0) 
     }
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshGraph(1) 
 
     function writeText(text, position, color, size) {
-        ctx.font = `${(size / 10) / (zoomLevel - 9)}px Arial`;
+        ctx.font = `${(size * 20) / (zoomLevel - 9)}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'center';
         ctx.fillStyle = color

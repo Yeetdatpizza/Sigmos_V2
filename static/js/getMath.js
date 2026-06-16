@@ -53,8 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (answer !== null) {
 
-            if(answer.toString() == "Infinity" || answer.toString() == "-Infinity") {
-                alert("BOII TS IS INFINITE")
+            if(answer.toString() == "Infinity") {
+                answer = "I can't count that high buddy"
+            }
+
+            else if(answer.toString() == "-Infinity") {
+                answer = "I can't count that low buddy"
             }
 
             localStorage.setItem('PreviousAnswer', answer)
@@ -80,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mathToDo = mathToDo.replaceAll('√', 'sqrt')
         mathToDo = mathToDo.replaceAll('π', 'pi')
 
-        //console.log(mathToDo)
         return mathToDo
     
     }
@@ -98,15 +101,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const button of [one, two, three, four, five, six, seven, eight, nine, zero, decimal, plus, minus, log, mod, leftParen, rightParen, e, pi, power]) {
         if (button) button.addEventListener('click', () => {
+
+            mathInput.focus()
+
+            var range = document.selection.createRange()
+
             mathInput.value += button.innerText
         })
     }
 
-    for(const funcButton of [sin, cos, tan, asin, acos, atan, ln]) {
+    for(const funcButton of [sin, cos, tan, asin, acos, atan]) {
         if (funcButton) funcButton.addEventListener('click', () => {
             mathInput.value += funcButton.innerText + '('
         })
     }
+
+    if (ln) ln.addEventListener('click', () => {
+        mathInput.value += 'log10('
+    })
 
     document.addEventListener('keydown', (e) => {
         if(e.key.toLowerCase() == "enter") {
@@ -125,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }      
         
             catch (error) {
-                alert("BOII TS BROKEN!")
+                
             }
         }
     })
@@ -138,14 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
             setPreviousAnswer(result)
         }
         
-        catch (error) {
-            alert("BOII TS BROKEN!")
-        }
+        catch (error) {}
     })
 
     if (back) back.addEventListener('click', () => {
         mathInput.value = mathInput.value.slice(0, -1)
-    })  
+    })
 
     if (answer) answer.addEventListener('click', () => {
         if (previousAnswer !== null) {
