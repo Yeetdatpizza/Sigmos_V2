@@ -24,6 +24,12 @@ function JSify(equation) {
     return equation
 }
 
+// Holds all of the shapes on the graph
+var shapes = [
+    // Elements will look like this:
+    // [0,0][1,1][0,1]
+]
+
 // Holds the amount of inputs there currently are, deprecated, use mathInputs.length instead.
 var amountOfInputs = 1
 
@@ -161,13 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         ctx.lineWidth = 3 
-
-        /*
-        ctx.beginPath() 
-        ctx.arc(realOriginX, realOriginY, squareWidth / 3, 0, 360) 
-        ctx.strokeStyle = 'rgb(26, 94, 220)' 
-        ctx.stroke() 
-        */
         
         ctx.beginPath() 
         ctx.moveTo((width / 2) + (offsetX), 0) 
@@ -184,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.lineWidth = 1 
     }
 
-    // CONVERT THE STUPID SCREEN CORDS
+    // Convert screen cords to graphing cords.
 
     function convertToGraphCoords(x, y) {
         x = realOriginX + (x * squareWidth) 
@@ -198,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return [x, y] 
     }
 
-    // DRAW DOTS
+    // Plotting point logic
 
     function plotPoint(x, y, i) {
         const realCords = convertToGraphCoords(x, y) 
@@ -213,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // REFRESH THE STUIPD GRAPH
+    // Refreshing the graph
     ctx.clearRect(0, 0, graph.width, graph.height) 
 
     function drawLine(x1, y1, x2, y2, i) {
@@ -231,12 +230,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function refreshGraph(direction = 0) {
         ctx.clearRect(0, 0, graph.width, graph.height) 
         drawGrid(direction) 
-        itemCheck() 
+        itemCheck()
+        shapes.length = 0
     }
 
     refreshGraph(1) 
 
     function writeText(text, position, color, size) {
+
+        if(text == "getShapes") {
+            alert(shapes.toString())
+        }
+
         ctx.font = `${(size * 20) / (zoomLevel - 9)}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'center';
@@ -269,6 +274,9 @@ document.addEventListener('DOMContentLoaded', () => {
             isFirst = false
                 
         }
+
+        shapes.push(listOfPoints)
+
     }
 
     function graphLineFromInfo(information, i) {

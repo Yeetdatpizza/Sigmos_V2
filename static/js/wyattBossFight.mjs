@@ -5,6 +5,8 @@ var canvas = document.getElementById('graphing-calc-canvas')
 var ctx = canvas.getContext('2d') 
 var graphingGraphThing = document.getElementById('graphingGraphThing') 
 
+var isDone = false
+
 var keysPressed = {} 
 var lastFrameTime = performance.now() 
 
@@ -68,7 +70,7 @@ export function startTheFight() {
     playerOrign = {x: (canvas.width / 2) - canvas.width / 48, y: (canvas.height * (3 / 5) + (canvas.height / 10))}
     player = new Objects.Player(playerOrign.x, playerOrign.y, 100, 0, canvas.width / 24, canvas.width / 24, playerImage)
 
-    wyatt = new Objects.Enemy((canvas.width / 2) - canvas.width / 6, (canvas.height / 2) - canvas.width / 3, canvas.width / 3, canvas.width / 3, 1000, wyattImage)
+    wyatt = new Objects.Enemy((canvas.width / 2) - canvas.width / 6, (canvas.height / 2) - canvas.width / 3, canvas.width / 3, canvas.width / 3, 1, wyattImage)
     
     lastFrameTime = performance.now() 
     updateFrame()
@@ -248,9 +250,12 @@ function drawWrappedCenteredText(ctx, text, centerX, centerY, maxWidth, lineHeig
 
 function attackLoop(currentFrame) {
 
+    if (isDone) {
+        return
+    }
+
     if(wyatt.getHealth() <= 0) {
-       write("Guh! You... you... defeated me, no this CAN'T BE!", false, false, false)
-       return
+       currentAttack = "Final"
     }
 
     if(player.getHealth() <= 0) {
@@ -440,9 +445,20 @@ function attackLoop(currentFrame) {
             if(write("OH NO! MY GREATEST ENEMY!!", false, true, false) == "Done") {
                 ctx.drawImage(explosion, (canvas.width / 2) - canvas.width / 6, (canvas.height / 2) - canvas.width / 3, canvas.width / 3, canvas.width / 3)
                 if(write("Guh! You... you... defeated me, no this CAN'T BE!", false, true, false) == "Done") {
-                    ctx.rotate(1 * Math.PI / 180)
                     if (write("Nooo!", false, true, false) == "Done") {
-                        //ctx.rotate(-2 * Math.PI / 180)
+                        if (write("(You WON!)", false, true, false) == "Done") {
+                            if (write("(You gained 10 Sigmos Coins, and... whatever this thing is.)", false, true, false) == "Done") {
+                                isDone = true
+                                location.href = "/home"
+                                if (localStorage.getItem("sigmosCoins") == null) {
+                                    localStorage.setItem("sigmosCoins", 0)
+                                }
+                                localStorage.setItem("sigmosCoins", parseInt(localStorage.getItem("sigmosCoins")) + 10)
+                                localStorage.setItem("hasBeatWyatt", true)
+                                write("", false, false, false)
+                                return
+                            }
+                        }
                     }
                 }
             }

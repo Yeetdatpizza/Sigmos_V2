@@ -103,9 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (button) button.addEventListener('click', () => {
 
             mathInput.focus()
-
             var range = document.selection.createRange()
-
             mathInput.value += button.innerText
         })
     }
