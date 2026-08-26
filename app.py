@@ -31,5 +31,9 @@ def cm_files():
 def sixty_seven():
     return render_template("67.html")
 
+@app.route("/???")
+def question_mark():
+    return render_template("???.html")
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

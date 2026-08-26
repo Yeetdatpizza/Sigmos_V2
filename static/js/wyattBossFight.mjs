@@ -70,7 +70,7 @@ export function startTheFight() {
     playerOrign = {x: (canvas.width / 2) - canvas.width / 48, y: (canvas.height * (3 / 5) + (canvas.height / 10))}
     player = new Objects.Player(playerOrign.x, playerOrign.y, 100, 0, canvas.width / 24, canvas.width / 24, playerImage)
 
-    wyatt = new Objects.Enemy((canvas.width / 2) - canvas.width / 6, (canvas.height / 2) - canvas.width / 3, canvas.width / 3, canvas.width / 3, 1, wyattImage)
+    wyatt = new Objects.Enemy((canvas.width / 2) - canvas.width / 6, (canvas.height / 2) - canvas.width / 3, canvas.width / 3, canvas.width / 3, 1000, wyattImage)
     
     lastFrameTime = performance.now() 
     updateFrame()
@@ -423,8 +423,6 @@ function attackLoop(currentFrame) {
         }
     }
 
-    
-
     else if(currentAttack == 'Taunt') {
 
         if(taunt() == "Done") {
@@ -450,7 +448,7 @@ function attackLoop(currentFrame) {
                             if (write("(You gained 10 Sigmos Coins, and... whatever this thing is.)", false, true, false) == "Done") {
                                 isDone = true
                                 location.href = "/home"
-                                if (localStorage.getItem("sigmosCoins") == null) {
+                                if (localStorage.getItem("sigmosCoins") == null || localStorage.getItem("sigmosCoins") == "NaN") {
                                     localStorage.setItem("sigmosCoins", 0)
                                 }
                                 localStorage.setItem("sigmosCoins", parseInt(localStorage.getItem("sigmosCoins")) + 10)

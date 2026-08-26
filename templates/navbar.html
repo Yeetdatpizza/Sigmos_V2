@@ -9,7 +9,16 @@
         <li><a href="{{ url_for('phonk') }}">Phonk</a></li>
         <li><a href="{{ url_for('graphing_calc') }}">Graphing Calc</a></li>
         <li><a href="{{ url_for('calc') }}">Calc</a></li>
-        <!--<li><a href="{{ url_for('cm_files') }}">CM Files</a></li>-->
+        
+        <script>
+            const hasBeatWyatt = localStorage.getItem("hasBeatWyatt");
+            if (hasBeatWyatt === "true") {
+                const questionmarkquestionmarkquestionmark = document.createElement("li");
+                questionmarkquestionmarkquestionmark.innerHTML = '<a href="{{ url_for("question_mark") }}">???</a></li>';
+                document.querySelector(".nav-links").appendChild(questionmarkquestionmarkquestionmark);
+            }
+
+  </script>
 
     </ul>
 </nav>

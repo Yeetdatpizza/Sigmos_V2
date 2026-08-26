@@ -101,21 +101,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const button of [one, two, three, four, five, six, seven, eight, nine, zero, decimal, plus, minus, log, mod, leftParen, rightParen, e, pi, power]) {
         if (button) button.addEventListener('click', () => {
-
+            if (document.activeElement != mathInput) {
+                mathInput.focus()
+            }
+                
+            var cursorPosition = mathInput.selectionStart
+            mathInput.value = mathInput.value.substring(0, cursorPosition) + button.textContent + mathInput.value.substring(cursorPosition)
             mathInput.focus()
-            var range = document.selection.createRange()
-            mathInput.value += button.innerText
+            mathInput.setSelectionRange(cursorPosition + button.textContent.length, cursorPosition + button.textContent.length)
         })
     }
 
     for(const funcButton of [sin, cos, tan, asin, acos, atan]) {
         if (funcButton) funcButton.addEventListener('click', () => {
-            mathInput.value += funcButton.innerText + '('
+            if (document.activeElement != mathInput) {
+                mathInput.focus()
+            }
+                
+            var cursorPosition = mathInput.selectionStart
+            mathInput.value = mathInput.value.substring(0, cursorPosition) + (funcButton.innerText + "(") + mathInput.value.substring(cursorPosition)
+            mathInput.focus()
+            mathInput.setSelectionRange(cursorPosition + funcButton.innerText.length + 1, cursorPosition + funcButton.innerText.length + 1)
         })
     }
 
     if (ln) ln.addEventListener('click', () => {
-        mathInput.value += 'log10('
+        if (document.activeElement != mathInput) {
+                mathInput.focus()
+            }
+                
+            var cursorPosition = mathInput.selectionStart
+            mathInput.value = mathInput.value.substring(0, cursorPosition) + ("log10(") + mathInput.value.substring(cursorPosition)
+            mathInput.focus()
+            mathInput.setSelectionRange(cursorPosition + 6, cursorPosition + 6)
     })
 
     document.addEventListener('keydown', (e) => {
@@ -152,7 +170,15 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     if (back) back.addEventListener('click', () => {
-        mathInput.value = mathInput.value.slice(0, -1)
+
+        if (document.activeElement != mathInput) {
+            mathInput.focus()
+        }
+
+        var cursorPosition = mathInput.selectionStart
+        mathInput.value = mathInput.value.substring(0, cursorPosition - 1) + mathInput.value.substring(cursorPosition)
+        mathInput.setSelectionRange(cursorPosition - 1, cursorPosition - 1)
+
     })
 
     if (answer) answer.addEventListener('click', () => {
@@ -162,15 +188,36 @@ document.addEventListener('DOMContentLoaded', () => {
     })
    
     if (sqrt) sqrt.addEventListener('click', () => {
-        mathInput.value += '√('
+        if (document.activeElement != mathInput) {
+            mathInput.focus()
+        }
+                
+        var cursorPosition = mathInput.selectionStart
+        mathInput.value = mathInput.value.substring(0, cursorPosition) + sqrt.textContent + "(" + mathInput.value.substring(cursorPosition)
+        mathInput.focus()
+        mathInput.setSelectionRange(cursorPosition + 2, cursorPosition + 2)
     })
 
     if (times) times.addEventListener('click', () => {
-        mathInput.value += '*'
+        if (document.activeElement != mathInput) {
+            mathInput.focus()
+        }
+                
+        var cursorPosition = mathInput.selectionStart
+        mathInput.value = mathInput.value.substring(0, cursorPosition) + "*" + mathInput.value.substring(cursorPosition)
+        mathInput.focus()
+        mathInput.setSelectionRange(cursorPosition + times.textContent.length, cursorPosition + times.textContent.length)
     })
 
     if (division) division.addEventListener('click', () => {
-        mathInput.value += '/'
+        if (document.activeElement != mathInput) {
+            mathInput.focus()
+        }
+                
+        var cursorPosition = mathInput.selectionStart
+        mathInput.value = mathInput.value.substring(0, cursorPosition) + "/" + mathInput.value.substring(cursorPosition)
+        mathInput.focus()
+        mathInput.setSelectionRange(cursorPosition + division.textContent.length, cursorPosition + division.textContent.length)
     })
 
     if (round) round.addEventListener('click', () => {
