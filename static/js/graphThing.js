@@ -1,8 +1,15 @@
 // Handles (mostly) all of the graphing logic, other stuff is handled by graphHelper.js
 
 // Imports
+//import { random } from "mathjs"
 import { getEquationTypeFromInput } from "./graphHelper.mjs"
 import { startTheFight } from "./wyattBossFight.mjs"
+
+function getRandomInt(min, max) {
+  min = math.ceil(min);
+  max = math.floor(max);
+  return math.floor(math.random() * (max - min)) + min;
+}
 
 // Basically fixes floating-point issues with JavaScript, via a library. 
 math.config({number: 'number'})
@@ -13,6 +20,11 @@ var isFightingWyatt = false
 // This holds the math inputs, the place where you actually type the equation you want to graph
 var mathInputs = []
 mathInputs.push(document.getElementById(`whatever_this_thing_is_called`))
+
+// Stores all the points in order of each equation in the slots
+var storage = {
+    "1": [],
+}
 
 // Converts an equation (string) to something JavaScript can understand.
 function JSify(equation) {
@@ -88,13 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // All of the available colors for graphing
     const listOfColors = [
         "rgb(26, 94, 220)", 
-        "rgb(0, 255, 106)", 
-        "rgb(220, 26, 26)", 
-        "rgb(106, 0, 192)", 
-        "rgb(255, 145, 0)", 
-        "rgb(0, 0, 0)", 
-        'rgb(255, 0, 212)', 
-        'rgb(16, 250, 203)'
+        "rgb(0, 255, 106)",
+        "rgb(220, 26, 26)",
+        "rgb(106, 0, 192)",
+        "rgb(255, 145, 0)",
+        "rgb(0, 0, 0)",
+        "rgb(255, 0, 212)",
+        "rgb(16, 250, 203)",
+        "rgb(0, 194, 255)",
     ]
 
     // The offsets (in pixels), relative to graphs 0, 0 (the canvas center)
@@ -259,15 +272,16 @@ document.addEventListener('DOMContentLoaded', () => {
         listOfPoints.push(listOfPoints[0])
         let lastPoint = []            
         let isFirst = true
+
         for(let i = 0; i <= listOfPoints.length - 1; i++) {
             
             let theX = (math.evaluate(JSify(listOfPoints[i][0])) * math.evaluate(JSify(size.toString()))) + math.evaluate(JSify(offsetOfX.toString()))
             let theY = (math.evaluate(JSify(listOfPoints[i][1])) * math.evaluate(JSify(size.toString()))) + math.evaluate(JSify(offsetOfY.toString()))
         
-            plotPoint(theX, theY, theColor)
+            //plotPoint(theX, theY, theColor)
                 
             if(!isFirst) {
-                drawLine(theX, theY, lastPoint[0], lastPoint[1])
+                drawLine(theX, theY, lastPoint[0], lastPoint[1], theColor)
             }
 
             lastPoint = [theX, theY]
@@ -286,6 +300,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if(dontEvenTryIt) {
             return
         }
+
+        let points = []
 
         let minXVisible = math.ceil((-amountOfSquaresX / 2) - (math.floor(offsetX / squareWidth))) - 1
         let minYVisible = math.ceil((-amountOfSquaresY / 2) + (math.floor(offsetY / squareHeight))) - 1
@@ -361,14 +377,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         continue 
                     }
 
+                    
+
                     if (y < minYVisible - (precision * 100) || y > maxYVisible + (precision * 100)) {
                         previousPoint = null 
                         // If null, then do NOT draw a line from the last good point, or else asymptotes will break
                         continue 
                     }
 
+                    points.push([x, y])
+
                     if(previousPoint == null) {
                         previousPoint = [x, y]
+                        
                     }
 
                     if (previousPoint !== null) {
@@ -414,6 +435,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         continue 
                     }
 
+                    points.push([x, y])
+
                     if(previousPoint == null) {
                         previousPoint = [x, y]
                     }
@@ -439,24 +462,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
         else if (information[0] == "STOSS") {
 
-            let sideToSolveFor = JSify(information[1])
-            let sideWithSolution = JSify(information[2])
+            let sideToSolveFor = JSify(information[1]);
+            let sideWithSolution = JSify(information[2]);
 
-            let lastPoint = null
+            let solution = math.evaluate(sideWithSolution);
+            let equationString = `(${sideToSolveFor}) - (${solution})`;
 
-            for (let x = minXVisible; x <= maxXVisible; x++) {
-                for (let y = minYVisible; y <= maxYVisible; y++) {
+            let leftMathCoords = convertToMathCoords(0, 0);
+            let rightMathCoords = convertToMathCoords(width, height);
+            
+            let xMin = leftMathCoords[0];
+            let xMax = rightMathCoords[0];
 
-                    let thing = sideToSolveFor.replaceAll("y", "(" + y.toString() + ")")
-                    thing = thing.replaceAll("x", "(" + x.toString() + ")")
+            let bottomMathCoords = convertToMathCoords(0, height);
+            let topMathCoords = convertToMathCoords(0, 0);
+            let yMin = bottomMathCoords[1];
+            let yMax = topMathCoords[1];
 
-                    if (math.evaluate(thing) == sideWithSolution) {
-                        
-                        plotPoint(x, y, indexOfColor) 
+            let xStep = (xMax - xMin) / (width / 2) / 8;
+            let yStep = (yMax - yMin) / 80;
 
+            let goyPoints = [];
+
+            for (let x = xMin; x <= xMax; x += xStep) {
+                let equationWithX = equationString.replaceAll("x", `(${x})`);
+                let currentColumnPoints = [];
+
+                try {
+                    let compilledEq = math.compile(equationWithX);
+
+                    for (let y = yMin; y <= yMax; y += yStep) {
+                        let val1 = compilledEq.evaluate({y: y});
+                        let val2 = compilledEq.evaluate({y: y + yStep});
+
+                        if (val1 * val2 <= 0) {
+                            let fraction = Math.abs(val1) / (Math.abs(val1) + Math.abs(val2));
+                            let exactY = y + fraction * yStep;
+
+                            currentColumnPoints.push([x, exactY]);
+                        }
                     }
+
+                    for (let currentPt of currentColumnPoints) {
+                        if (goyPoints.length > 0) {
+                            let closestPt = goyPoints.reduce((prev, curr) => 
+                                Math.abs(curr[1] - currentPt[1]) < Math.abs(prev[1] - currentPt[1]) ? curr : prev
+                            );
+
+                            if (Math.abs(closestPt[1] - currentPt[1]) < yStep * 3) {
+                                drawLine(closestPt[0], closestPt[1], currentPt[0], currentPt[1], indexOfColor);
+                            }
+                        }
+                    }
+
+                    if (currentColumnPoints.length > 0) {
+                        goyPoints = currentColumnPoints;
+                    }
+
+                    points.push(goyPoints)
+
+                } 
+                
+                catch (e) {
+                    continue; 
                 }
             }
+
+
+
         }
     }
 
@@ -531,7 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
             starterThing.style.backgroundColor = listOfColors[index + 1]
         }
 
-        refreshGraph(0) 
+        refreshGraph(0)
 
     })
 

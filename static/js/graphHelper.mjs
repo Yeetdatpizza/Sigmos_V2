@@ -83,7 +83,7 @@ export function getEquationTypeFromInput(equation) {
 
     if(eq.includes("diamond")) {
         return ["diamond"]
-    }
+    }2
 
 
     try {
@@ -95,7 +95,6 @@ export function getEquationTypeFromInput(equation) {
             
             return ['point', x, y]
         }
-
     }
 
     catch {

@@ -144,9 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(toggle == "RAD")
                     result = makeGood(math.evaluate(doMath(("(" + mathInput.value.toString() + ") * pi / 180")))).toString()
 
-                else {
-                    result = makeGood(math.evaluate(doMath(mathInput.value))).toString()
-                }
+                else {result = makeGood(math.evaluate(doMath(mathInput.value))).toString()}
                 
                 checkForTuff(result)
                 setPreviousAnswer(result)
